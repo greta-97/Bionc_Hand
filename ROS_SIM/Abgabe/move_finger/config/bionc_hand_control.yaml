@@ -1,0 +1,91 @@
+bionc_hand_with_base:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+
+# Position Controllers ---------------------------------------
+  carpi_to_metacarpa_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: carpi_to_metacarpa
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  metacarpa_to_proxi_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: metacarpa_to_proxi
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  proxi_to_media_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: proxi_to_media
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  media_to_distalis_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: media_to_distalis
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  dm_carpi_to_metacarpa_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: dm_carpi_to_metacarpa
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  dm_metacarpa_to_proxi_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: dm_metacarpa_to_proxi
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  dm_proxi_to_media_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: dm_proxi_to_media
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  dem_media_to_distalis_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: dem_media_to_distalis
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  a_carpi_to_metacarpa_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: a_carpi_to_metacarpa
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  a_metacarpa_to_proxi_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: a_metacarpa_to_proxi
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  a_proxi_to_media_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: a_proxi_to_media
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  a_media_to_distalis_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: a_media_to_distalis
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  l_carpi_to_metacarpa_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_carpi_to_metacarpa
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  l_metacarpa_to_proxi_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_metacarpa_to_proxi
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  l_proxi_to_media_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_proxi_to_media
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  l_media_to_distalis_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: l_media_to_distalis
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  p_carpi_to_polloxhalter_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: p_carpi_to_polloxhalter
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  p_polloxhalter_to_servo_small_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: p_polloxhalter_to_servo_small
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  p_servo_small_to_proxi_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: p_servo_small_to_proxi
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  p_proxi_to_media_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: p_proxi_to_media
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  p_media_to_distalis_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: p_media_to_distalis
+    pid: {p: 100.0, i: 0.01, d: 10.0}

@@ -1,0 +1,1053 @@
+<?xml version="1.0" ?>
+
+<robot name="bionc_hand_with_base" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!--need world link becuase there are many errors without for example flying in the air or make strange movements -->
+<link name="world"/>
+
+ <!-- -------------------------------------------------------------------------------Metacarpal bone------------------------------------------------------------------------------- -->
+
+<-- The link element defines the component  -->
+<link name = "base_link">
+	
+	<-- Physical properties such as mass and moments of inertia are defined here (read from the cad model) -->
+ 	<inertial>
+	      <mass value="1"/>
+	      <inertia
+	        ixx="8.7386804e+01" ixy="-2.6233323e-02" ixz="3.4551098e+01"
+	        iyy="1.2708034e+02" iyz="1.9538407e-02"
+	        izz="3.9900686e+01"/>
+    </inertial>
+	<visual>        
+		<geometry>
+        	<mesh filename="package://move_finger/meshes/carpi.stl" scale="1 1 1"/> <-- instead of a defined geometry, the cad stl file is read in here -->
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <material name="blue">
+			 <color rgba="0 0 0.8 1"/>
+		</material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/carpi.stl" scale="1 1 1"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+     
+</link> 
+
+<-- The joint element defines the movement between components hier it is fixed so no movement is able  -->
+ <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <!--need origin becuase ther are many errors without -->
+    <origin rpy="0 0 0" xyz="0 0 100"/>
+ </joint>
+ 
+ <!-- -------------------------------------------------------------------------------Middle finger------------------------------------------------------------------------------- -->
+ <!--m_metacarpalia -->
+    <link name = "m_metacarpalia">
+		<visual>        
+			<geometry>
+	        	<mesh filename="package://move_finger/meshes/Mittelfinger/m_metacarpalia.stl" scale="1 1 1"/>
+	        </geometry>
+	        <origin rpy="0 0 0" xyz="0 0 0"/>
+	         <material name="black">
+	               <color rgba="0 0 0 0.95"/>
+	         </material>
+	    </visual>
+	    <collision>
+	      <geometry>
+	        <mesh filename="package://move_finger/meshes/Mittelfinger/m_metacarpalia.stl" scale="1 1 1"/>
+	      </geometry>
+	      <origin rpy="0 0 0" xyz="0 0 0"/>
+	    </collision>
+	    <inertial>
+	    <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+		      <mass value="4.0065452e-03"/>
+		      <inertia
+		        ixx="4.7089786e-01" ixy="0.0" ixz="0.0"
+		        iyy="3.6671863e-01" iyz="-1.0941648e-02"
+		        izz="1.5659234e-01"/>
+	    </inertial>
+    </link>
+<-- The joint element defines the movement between components hier it is revoulte -->    
+    <joint name="carpi_to_metacarpa" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    	<parent link="base_link"/>
+    	<child link="m_metacarpalia"/>
+    	<origin xyz="38.5 0 8" rpy="0 0 0"/>
+    	<limit lower="-0.2" upper="1.7" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    	<axis xyz="0 1 0"/> <!--around which axis is rotated->
+  	</joint>
+  
+<!--m_proxi -->
+
+ <link name = "m_proxi">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Mittelfinger/m_proximalis.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Mittelfinger/m_proximalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+    <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="1.0349068e-02"/>
+	      <inertia
+	        ixx="3.2161999e+00" ixy="0.0" ixz="0.0"
+	        iyy="3.3155939e+00" iyz="-1.7553948e-01"
+	        izz="5.1133386e-01"/>
+	</inertial>
+  </link>
+
+	
+ <joint name="metacarpa_to_proxi" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="m_metacarpalia"/>
+    <child link="m_proxi"/>
+    <origin xyz="0 0 14.7" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="1.7" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> <!--around which axis is rotated->
+  </joint>
+
+<!--m_media -->
+
+ <link name = "m_media">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Mittelfinger/m_media.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+       <material name="black">
+               <color rgba="0 0 0 0.95"/>
+         </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Mittelfinger/m_media.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="5.6234297e-03"/>
+	      <inertia
+	        ixx="8.8037772e-01" ixy="0.0" ixz="0.0"
+	        iyy="9.6022139e-01" iyz="-2.1055527e-02"
+	        izz="2.3211891e-01"/>
+	</inertial>
+  </link>
+	
+ <joint name="proxi_to_media" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="m_proxi"/>
+    <child link="m_media"/>
+    <origin xyz="0 0 32.5" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="2.0" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> <!--around which axis is rotated->
+  </joint
+
+ <!--m_distalis -->
+
+ <link name = "m_distalis">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Mittelfinger/m_distalis.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Mittelfinger/m_distalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="2.9215128e-03"/>
+	      <inertia
+	        ixx="2.5187161e-01" ixy="0.0" ixz="0.0"
+	        iyy=".0301660e-01" iyz="3.8104620e-03"
+	        izz="8.9042758e-02"/>
+	</inertial> 
+  </link>
+
+	
+ <joint name="media_to_distalis" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="m_media"/>
+    <child link="m_distalis"/>
+    <origin xyz="0 0 22.5" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="1.74" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> <!--around which axis is rotated->
+  </joint>
+  
+
+
+ <!-- -------------------------------------------------------------------------------little finger --------------------------------------------------------------------------------->
+ <!--dm_metacarpalia -->
+    <link name = "dm_metacarpalia">
+		<visual>        
+			<geometry>
+		        	<mesh filename="package://move_finger/meshes/kleiner_Finger/dm_metacarpalia.stl" scale="1 1 1"/>
+		    </geometry>
+	        <origin rpy="0 0 0" xyz="0 0 0"/>
+		         <material name="black">
+		               <color rgba="0 0 0 0.95"/>
+		         </material>
+	    </visual>
+	    <collision>
+	      <geometry>
+	        <mesh filename="package://move_finger/meshes/kleiner_Finger/dm_metacarpalia.stl" scale="1 1 1"/>
+	      </geometry>
+	      <origin rpy="0 0 0" xyz="0 0 0"/>
+	    </collision>
+	    <inertial>
+	    <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+		      <mass value="3.9856393e-03"/>
+		      <inertia
+		        ixx=" 4.6996789e-01" ixy="0.0" ixz="0.0"
+		        iyy="3.6560649e-01" iyz="-1.0941648e-02"
+		        izz="1.5626586e-01"/>
+		</inertial>
+    </link>
+    <joint name="dm_carpi_to_metacarpa" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    	<parent link="base_link"/>
+    	<child link="dm_metacarpalia"/>
+    	<origin xyz="0 0 0" rpy="0 0 0"/>
+    	<limit lower="-0.2" upper="1.7" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    	<axis xyz="0 1 0"/> <!--around which axis is rotated->
+  </joint>
+  
+<!--dm_proxi -->
+
+ <link name = "dm_proxi">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/kleiner_Finger/dm_proximalis.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/kleiner_Finger/dm_proximalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="4.1715245e-03"/>
+	      <inertia
+	        ixx="6.5264608e-01" ixy="0.0" ixz="0.0"
+	        iyy="6.4696346e-01" iyz="-4.6777222e-02"
+	        izz="1.4356375e-01"/>
+	</inertial>
+ </link>
+
+	
+ <joint name="dm_metacarpa_to_proxi" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="dm_metacarpalia"/>
+    <child link="dm_proxi"/>
+    <origin xyz="0 0 14.7" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="1.7" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> <!--around which axis is rotated->
+  </joint>
+
+<!--dm_media -->
+
+ <link name = "dm_media">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/kleiner_Finger/dm_media.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+       <material name="black">
+               <color rgba="0 0 0 0.95"/>
+         </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/kleiner_Finger/dm_media.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="3.2671102e-03"/>
+	      <inertia
+	        ixx="4.2717226e-01" ixy="0.0" ixz="0.0"
+	        iyy="4.3716120e-01" iyz="-1.1550378e-02"
+	        izz="9.6677987e-02"/>
+	</inertial>
+    </link>
+
+	
+ <joint name="dm_proxi_to_media" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="dm_proxi"/>
+    <child link="dm_media"/>
+    <origin xyz="0 0 20.5" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="2.0" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> <!--around which axis is rotated->
+  </joint>
+  
+
+
+ <!--dm_distalis -->
+
+ <link name = "dm_distalis">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/kleiner_Finger/dm_distalis.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/kleiner_Finger/dm_distalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="1.7751881e-03"/>
+	      <inertia
+	        ixx="1.3240657e-01" ixy="0.0" ixz="4.6370030e-07"
+	        iyy="1.4952650e-01" iyz="1.9783635e-03"
+	        izz="3.7035175e-02"/>
+	</inertial>
+    </link>
+
+	
+ <joint name="dem_media_to_distalis" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="dm_media"/>
+    <child link="dm_distalis"/>
+    <origin xyz="0 0 18.5" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="1.74" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> <!--around which axis is rotated->
+  </joint>
+  
+
+
+<!-- -------------------------------------------------------------------------------Ring finger ------------------------------------------------------------------------------- -->
+ <!--a_metacarpalia -->
+    <link name = "a_metacarpalia">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Ringfinger/a_metacarpalia.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+         <material name="black">
+               <color rgba="0 0 0 0.95"/>
+         </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Ringfinger/a_metacarpalia.stl" scale="1 1 1"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="4.0065452e-03"/>
+	      <inertia
+	        ixx="4.7089786e-01" ixy="0.0" ixz="0.0"
+	        iyy="3.6671863e-01" iyz="-1.0941648e-02"
+	        izz="1.5659234e-01"/>
+	</inertial>
+    </link>
+    <joint name="a_carpi_to_metacarpa" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    	<parent link="base_link"/>
+    	<child link="a_metacarpalia"/>
+    	<origin xyz="19.25 0 5" rpy="0 0 0"/>
+    	<limit lower="-0.2" upper="1.7" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    	<axis xyz="0 1 0"/> <!--around which axis is rotated->
+  </joint>
+ 
+<!--a_proximalis -->
+
+ <link name = "a_proximalis">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Ringfinger/a_proximalis.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Ringfinger/a_proximalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="8.4685905e-03"/>
+	      <inertia
+	        ixx="2.4354830e+00" ixy="0.0" ixz="0.0"
+	        iyy="2.4716457e+00" iyz="-1.3657693e-01"
+	        izz="3.6488973e-01"/>
+	</inertial>
+    </link>
+
+ <joint name="a_metacarpa_to_proxi" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="a_metacarpalia"/>
+    <child link="a_proximalis"/>
+    <origin xyz="0 0 14.7" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="1.7" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> 		<!--around which axis is rotated->
+  </joint>
+  
+<!--a_media -->
+
+ <link name = "a_media">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Ringfinger/a_media.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+       <material name="black">
+               <color rgba="0 0 0 0.95"/>
+         </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Ringfinger/a_media.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="5.0940096e-03"/>
+	      <inertia
+	        ixx="8.3787761e-01" ixy="0.0" ixz="0.0"
+	        iyy="8.8816457e-01" iyz="-1.8542587e-02"
+	        izz="1.8647093e-01"/>
+	</inertial>
+    </link>
+
+	
+ <joint name="a_proxi_to_media" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="a_proximalis"/>
+    <child link="a_media"/>
+    <origin xyz="0 0 30.5" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="2.0" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> 	<!--around which axis is rotated->
+  </joint>
+
+
+
+
+ <!--a_distalis -->
+
+ <link name = "a_distalis">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Ringfinger/a_distalis.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Ringfinger/a_distalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="2.3723343e-03"/>
+	      <inertia
+	        ixx="1.6733365e-01" ixy="0.0" ixz="0.0"
+	        iyy="2.0566197e-01" iyz="2.6650088e-03"
+	        izz="6.7079265e-02"/>
+	</inertial>
+    </link>
+
+	
+ <joint name="a_media_to_distalis" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="a_media"/>
+    <child link="a_distalis"/>
+    <origin xyz="0 0 22.5" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="1.74" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> <!--around which axis is rotated->
+  </joint>
+  
+
+<!-- ------------------------------------------------------------------------------- Index finger ------------------------------------------------------------------------------- -->
+ <!--l_metacarpalia -->
+    <link name = "l_metacarpalia">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Zeigefinger/l_metacarpalia.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+         <material name="black">
+               <color rgba="0 0 0 0.95"/>
+         </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Zeigefinger/l_metacarpalia.stl" scale="1 1 1"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="4.0065452e-03"/>
+	      <inertia
+	        ixx="4.7089786e-01" ixy="0.0" ixz="0.0"
+	        iyy="3.6671863e-01" iyz="-1.0941648e-02"
+	        izz="1.5659234e-01"/>
+	</inertial>
+    </link>
+    <joint name="l_carpi_to_metacarpa" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    	<parent link="base_link"/>
+    	<child link="l_metacarpalia"/>
+    	<origin xyz="57.75 0 5" rpy="0 0 0"/>
+    	<limit lower="-0.2" upper="1.7" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    	<axis xyz="0 1 0"/> <!--around which axis is rotated->
+  </joint>
+  
+<!--l_proximalis -->
+
+ <link name = "l_proximalis">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Zeigefinger/l_proximalis.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Zeigefinger/l_proximalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="1.1091491e-02"/>
+	      <inertia
+	        ixx="3.8756228e+00" ixy="0.0" ixz="0.0"
+	        iyy="3.9806002e+00" iyz="-1.9505838e-01"
+	        izz="5.4777207e-01"/>
+	</inertial>
+    </link>
+
+ <joint name="l_metacarpa_to_proxi" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="l_metacarpalia"/>
+    <child link="l_proximalis"/>
+    <origin xyz="0 0 14.7" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="1.7" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> 		<!--around which axis is rotated->
+  </joint>
+  
+  
+<!--l_media -->
+
+ <link name = "l_media">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Zeigefinger/l_media.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+       <material name="black">
+               <color rgba="0 0 0 0.95"/>
+         </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Zeigefinger/l_media.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="5.3902802e-03"/>
+	      <inertia
+	        ixx="8.4980123e-01" ixy="0.0" ixz="0.0"
+	        iyy="9.2088697e-01" iyz="-2.2296879e-02"
+	        izz="2.1474455e-01"/>
+	</inertial>
+    </link>
+
+ <joint name="l_proxi_to_media" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="l_proximalis"/>
+    <child link="l_media"/>
+    <origin xyz="0 0 34.5" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="2.0" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> <!--around which axis is rotated->
+  </joint>
+  
+ <!--l_distalis -->
+
+ <link name = "l_distalis">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Zeigefinger/l_distalis.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Zeigefinger/l_distalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="2.3595006e-03"/>
+	      <inertia
+	        ixx="1.6449243e-01" ixy="2.4810756e-07" ixz="0.0"
+	        iyy="2.0273080e-01" iyz="2.6583284e-03"
+	        izz="6.6829622e-02"/>
+	</inertial>
+    </link>
+
+ <joint name="l_media_to_distalis" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="l_media"/>
+    <child link="l_distalis"/>
+    <origin xyz="0 0 22.5" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="1.74" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> <!--around which axis is rotated->
+  </joint>
+  
+ 
+ <!-- ------------------------------------------------------------------------------- Thumbs ------------------------------------------------------------------------------- -->
+ <!--polloxhalter -->
+    <link name = "p_polloxhalter">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Daumen/polloxhalter.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+         <material name="black">
+               <color rgba="0 0 0 0.95"/>
+         </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Daumen/polloxhalter.stl" scale="1 1 1"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="2.9914049e-03"/>
+	      <inertia
+	        ixx="1.5377566e+00" ixy="-1.2900201e-03" ixz="2.8368151e-02"
+	        iyy="1.5047713e+00" iyz="3.9274175e-02"
+	        izz=" 2.0523441e-01"/>
+	</inertial>
+    </link>
+    <joint name="p_carpi_to_polloxhalter" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    	<parent link="base_link"/>
+    	<child link="p_polloxhalter"/>
+    	<origin xyz="52.375 0 -27.2" rpy="0 0 0"/>
+    	<limit lower="-0.2" upper="1.7" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    	<axis xyz="0 0 -1"/> <!--around which axis is rotated->
+  </joint>
+  
+<!--p_servo_small -->
+
+ <link name = "p_servo_small">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Daumen/servo_small.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Daumen/servo_small.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="9.8637097e-03"/>
+	      <inertia
+	        ixx="8.3769495e-01" ixy="0.0" ixz="1.2499992e-01"
+	        iyy="1.4772943e+00" iyz="0.0"
+	        izz="8.7065975e-01"/>
+	</inertial>
+    </link>
+	
+ <joint name="p_polloxhalter_to_servo_small" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="p_polloxhalter"/>
+    <child link="p_servo_small"/>
+    <origin xyz="0 1.8 -11.3437" rpy="0 0 0"/>
+    <limit lower="-0.01" upper="0.1" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="1 0 0"/> 		<!--around which axis is rotated->
+  </joint>
+  
+   
+<!--p_proximalis -->
+
+ <link name = "p_proximalis">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Daumen/p_proximalis.stl" scale="1 1 1"/>
+    </geometry>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+        <material name="while">
+            <color rgba="1 1 1 0.9"/>
+        </material>
+   </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Daumen/p_proximalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="4.2539977e-03"/>
+	      <inertia
+	        ixx="1.8058629e-01" ixy="-4.3561243e-02" ixz="0.0"
+	        iyy="4.3052879e-01" iyz="0.0"
+	        izz="4.1210699e-01"/>
+	</inertial>
+    </link>
+
+ <joint name="p_servo_small_to_proxi" type="revolute">	 <!--revolute: can rotate around the axis but has a limit-->
+     <parent link="p_servo_small"/>
+     <child link="p_proximalis"/>
+     <origin xyz="19.5 0 0" rpy="0 0 0"/>
+     <limit lower="-1.5" upper="0.2" effort="100" velocity="3"/> 	<!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+     <axis xyz="1 0 0"/>		<!--around which axis is rotated->
+ </joint>
+  
+  
+<!--p_media -->
+
+ <link name = "p_media">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Daumen/p_media.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+       <material name="black">
+               <color rgba="0 0 0 0.95"/>
+         </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Daumen/p_media.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="7.1502148e-03"/>
+	      <inertia
+	        ixx="3.1907367e-01" ixy="-3.1786099e-02" ixz="0.0"
+	        iyy="1.5127287e+00" iyz="0.0"
+	        izz="1.4163578e+00"/>
+	</inertial>
+    </link>
+
+	
+ <joint name="p_proxi_to_media" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="p_proximalis"/>
+    <child link="p_media"/>
+    <origin xyz="16.5 0 0" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="2.0" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="0 0 -1"/> <!--around which axis is rotated->
+  </joint>
+  
+  
+ <!--p_distalis -->
+
+ <link name = "p_distalis">
+	<visual>        
+	<geometry>
+        	<mesh filename="package://move_finger/meshes/Daumen/p_distalis.stl" scale="1 1 1"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+            <material name="while">
+                <color rgba="1 1 1 0.9"/>
+            </material>
+       </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://move_finger/meshes/Daumen/p_distalis.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+     <inertial>
+     <!--<origin xyz="0 0 1" rpy="0 0 0"/>-->
+	      <mass value="3.3474548e-03"/>
+	      <inertia
+	        ixx="1.1255745e-01" ixy="-1.5644729e-03" ixz="0.0"
+	        iyy="3.7743398e-01" iyz="0.0"
+	        izz="3.2148782e-01"/>
+	</inertial>
+    </link>
+
+	
+ <joint name="p_media_to_distalis" type="revolute"> <!--revolute: can rotate around the axis but has a limit-->
+    <parent link="p_media"/>
+    <child link="p_distalis"/>
+    <origin xyz="25.5 0 0" rpy="0 0 0"/>
+    <limit lower="-0.2" upper="1.74" effort="100" velocity="3"/> <!--with how much force it is moved, speed = how fast it is moved, lower and upper = movement limit-->
+    <axis xyz="0 0 -1"/> <!--around which axis is rotated->
+  </joint>
+ 
+<!-- ------------------------------------------------------------------------------- motor definition for the controller ------------------------------------------------------------------------------- -->
+
+	<transmission name="m_carpi_to_metacarpa_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor1">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="carpi_to_metacarpa">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	
+	<transmission name="m_metacarpa_to_proxi_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor2">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="metacarpa_to_proxi">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	 
+	<transmission name="m_proxi_to_media_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor3">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="proxi_to_media">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	 
+	<transmission name="m_media_to_distalis_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor4">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="media_to_distalis">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	
+	<transmission name="dm_carpi_to_metacarpa_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor5">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="dm_carpi_to_metacarpa">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	
+	<transmission name="dm_metacarpa_to_proxi_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor6">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="dm_metacarpa_to_proxi">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	
+	
+	<transmission name="dm_proxi_to_media_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor7">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="dm_proxi_to_media">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	
+	<transmission name="dem_media_to_distalis_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor8">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="dem_media_to_distalis">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	
+	<transmission name="a_carpi_to_metacarpa_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor9">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="a_carpi_to_metacarpa">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	 
+	<transmission name="a_metacarpa_to_proxi_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor10">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="a_metacarpa_to_proxi">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	
+	<transmission name="a_proxi_to_media_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor11">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="a_proxi_to_media">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	 
+	<transmission name="a_media_to_distalis_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor12">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="a_media_to_distalis">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	  
+	<transmission name="l_carpi_to_metacarpa_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor13">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="l_carpi_to_metacarpa">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	
+	<transmission name="l_metacarpa_to_proxi_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor14">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="l_metacarpa_to_proxi">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	
+	<transmission name="l_proxi_to_media_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor15">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="l_proxi_to_media">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	   
+	<transmission name="l_media_to_distalis_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor16">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="l_media_to_distalis">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	</transmission>
+	 
+	<transmission name="p_carpi_to_polloxhalter_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor17">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="p_carpi_to_polloxhalter">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	 </transmission>
+	 
+	 <transmission name="p_polloxhalter_to_servo_small_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor18">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="p_polloxhalter_to_servo_small">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	 </transmission>
+	 
+	 <transmission name="p_servo_small_to_proxi_t">
+	     <type>transmission_interface/SimpleTransmission</type>
+	     <actuator name="motor19">
+	       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	       <mechanicalReduction>1</mechanicalReduction>
+	     </actuator>
+	     <joint name="p_servo_small_to_proxi">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	     </joint>
+	 </transmission>
+	 
+	 <transmission name="p_proxi_to_media_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor20">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="p_proxi_to_media">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	 </transmission>
+	 
+	 
+	 <transmission name="p_media_to_distalis_t">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <actuator name="motor21">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	    <joint name="p_media_to_distalis">
+	      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	    </joint>
+	  </transmission>
+	 
+<!-- ------------------------------------------------------------------------------- gazebo ------------------------------------------------------------------------------- -->
+
+	   <gazebo> 
+	    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+	      <robotNamespace>/bionc_hand_with_base</robotNamespace>
+	      <legacyModeNS>true</legacyModeNS>
+	      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+	    </plugin>
+	  </gazebo>
+	 
+	  
+	</robot>

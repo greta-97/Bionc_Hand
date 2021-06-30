@@ -1,0 +1,36 @@
+﻿VOLUMEN =  3.2088650e+03  MM^3
+FLÄCHENINHALT =  2.4245789e+03  MM^2
+DICHTE =  1.3000000e-06 KILOGRAMM / MM^3
+MASSE =  4.1715245e-03 KILOGRAMM 
+
+SCHWERPUNKT in Bezug auf den Koordinatenrahmen CS0:
+X   Y   Z     1.7896935e-04  1.1962682e+00  9.5721489e+00  MM
+
+Trägheit in Bezug auf Koordinatensystem CS0  (KILOGRAMM * MM^2)
+
+TRÄGHEITSTENSOR:
+Ixx Ixy Ixz  6.5264608e-01  0.0000000e+00  0.0000000e+00
+Iyx Iyy Iyz  0.0000000e+00  6.4696346e-01 -4.6777222e-02
+Izx Izy Izz  0.0000000e+00 -4.6777222e-02  1.4356375e-01
+
+Trägheit im Schwerpunkt in Bezug auf Koordinatenrahmen CS0  (KILOGRAMM * MM^2)
+
+TRÄGHEITSTENSOR:
+Ixx Ixy Ixz  2.6445614e-01  0.0000000e+00  7.1421092e-06
+Iyx Iyy Iyz  0.0000000e+00  2.6474321e-01  9.9030868e-04
+Izx Izy Izz  7.1421092e-06  9.9030868e-04  1.3759406e-01
+
+HAUPTTRÄGHEITSMOMENT:  (KILOGRAMM * MM^2)
+I1  I2  I3   1.3758634e-01  2.6445614e-01  2.6475093e-01
+
+Rotationsmatrix von CS0 Orientierung auf Hauptachsen:
+      -0.00006        1.00000        0.00173
+      -0.00779       -0.00173        0.99997
+       0.99997        0.00004        0.00779
+
+Rotationswinkel von CS0 Orientierung auf Hauptachsen (in Grad):
+Winkel um x  y  z -89.554          0.099        -90.003 
+
+TRÄGHEITSRADIEN in Bezug auf die HAUPTACHSEN:
+R1  R2  R3 5.7430191e+00  7.9621330e+00  7.9665694e+00  MM
+

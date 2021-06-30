@@ -1,0 +1,12 @@
+<launch>
+
+	<rosparam file="$(find move_finger)/config/bionc_hand_control.yaml" command="load"/>
+	
+	<node name="controller_spawner" pkg ="controller_manager" type="spawner" respawn="false"
+		output="screen" ns="/bionc_hand_with_base" args="carpi_to_metacarpa_position_controller metacarpa_to_proxi_position_controller proxi_to_media_position_controller media_to_distalis_position_controller dm_carpi_to_metacarpa_position_controller dm_metacarpa_to_proxi_position_controller dm_proxi_to_media_position_controller dem_media_to_distalis_position_controller a_carpi_to_metacarpa_position_controller a_metacarpa_to_proxi_position_controller a_proxi_to_media_position_controller a_media_to_distalis_position_controller l_carpi_to_metacarpa_position_controller l_metacarpa_to_proxi_position_controller l_proxi_to_media_position_controller l_media_to_distalis_position_controller p_carpi_to_polloxhalter_position_controller p_polloxhalter_to_servo_small_position_controller p_servo_small_to_proxi_position_controller p_proxi_to_media_position_controller p_media_to_distalis_position_controller joint_state_controller"/>
+
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <remap from="joint_state" to="/bionc_hand_with_base/joint_states" />
+    </node>
+    
+</launch>
