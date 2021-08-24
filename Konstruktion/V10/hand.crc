@@ -1,0 +1,19 @@
+﻿  Modell HAND: 
+ 
+
+  1 Zirkulärer-Bezug-Schleifen gefunden
+ 
+
+   Schleife Nr. 1
+
+   Schleifentiefe beträgt 3
+
+KE-Nummer 39 (KOMPONENTE, ID = 5845) 
+  in Modell HAND verweist auf:
+
+KE-Nummer 12 (KÖRPER, ID = 1213) 
+  in Modell STANDFUSS verweist auf:
+
+KE-Nummer 39 (KOMPONENTE, ID = 5845) 
+  in Modell HAND - Kreis geschlossen.
+
